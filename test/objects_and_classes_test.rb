@@ -1,4 +1,4 @@
-require File.expand_path('../test_init.rb', __FILE__)
+require_relative 'test_init'
 
 class Thing
   attr_accessor :a_field

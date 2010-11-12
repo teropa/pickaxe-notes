@@ -1,4 +1,4 @@
-require File.expand_path('../test_init.rb', __FILE__)
+require_relative 'test_init'
 
 class ContainersBlocksAndIteratorsTest < Test::Unit::TestCase
   
@@ -55,5 +55,16 @@ class ContainersBlocksAndIteratorsTest < Test::Unit::TestCase
     end
     
   end
+  
+  context "aspects of Hash" do
+    
+    should "retain insertion order since 1.9" do
+      h = {d: 1, b: 2, c: 3, a: 5, e: 4}
+      assert_equal [:d, :b, :c, :a, :e], h.keys
+      assert_equal [1, 2, 3, 5, 4], h.values
+    end
+    
+  end
+  
     
 end
