@@ -56,4 +56,21 @@ class FundamentalsTest < Test::Unit::TestCase
     
   end
   
+  context "Type conversion" do
+    
+    should "convert to Fixnum, Bignum, or raise" do
+      assert_equal 123, Integer(123)
+      assert_equal 123, Integer("123")
+      assert_equal 12345678901234567890, Integer("12345678901234567890")
+      assert_raise(ArgumentError) do
+        Integer("I am not an integer")
+      end
+    end
+    
+    should "convert to floats" do
+      assert_equal 12.3, Float("12.3")
+    end
+    
+  end
+  
 end
