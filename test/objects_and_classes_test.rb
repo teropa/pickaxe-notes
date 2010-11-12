@@ -1,7 +1,6 @@
 require File.expand_path('../test_init.rb', __FILE__)
 
 class Thing
-  
   attr_accessor :a_field
   
   def public_method; "public"; end
@@ -14,14 +13,8 @@ class Thing
   
   public
   
-  def call_other_protected(t)
-    t.protected_method
-  end
-  
-  def call_other_private(t)
-    t.private_method
-  end
-  
+  def call_other_protected(t); t.protected_method; end
+  def call_other_private(t); t.private_method; end
 end
 
 class SubThing < Thing
