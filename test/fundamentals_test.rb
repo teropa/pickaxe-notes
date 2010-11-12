@@ -1,6 +1,6 @@
 require File.expand_path('../test_init.rb', __FILE__)
 
-class UserTest < Test::Unit::TestCase
+class FundamentalsTest < Test::Unit::TestCase
 
   context "The very fundamentals" do
     
@@ -32,6 +32,26 @@ class UserTest < Test::Unit::TestCase
       n = 2
       n = n*n while n < 256
       assert_equal 256, n 
+    end
+    
+  end
+  
+  context "Regex fundamentals" do
+    
+    should "return index of match from =~" do
+      assert_equal 1, "John" =~ /o/
+    end
+    
+    should "return nil from =~ when not matched" do
+      assert_nil "John" =~ /a/
+    end
+    
+    should "replace one occurrence with sub" do
+      assert_equal "Jonas Johnson", "John Johnson".sub(/hn/, "nas")
+    end
+
+    should "replace all occurrences with gsub" do
+      assert_equal "Jonas Jonasson", "John Johnson".gsub(/hn/, "nas")
     end
     
   end
