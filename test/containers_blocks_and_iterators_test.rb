@@ -186,4 +186,33 @@ class ContainersBlocksAndIteratorsTest < Test::Unit::TestCase
     
   end
   
+  context "new lambda syntax" do
+    
+    should "create lambda from ->" do
+      p = -> { "hello" }
+      assert_equal "hello", p.call
+    end
+    
+    should "give parameter to lambda" do
+      p = -> a { "hello #{a}"}
+      assert_equal "hello john", p.call("john")
+    end
+    
+    should "give many parameters to lambda" do
+      p = -> a,b { "hello #{a} and #{b}" }
+      assert_equal "hello john and alan", p.call("john", "alan")
+    end
+    
+    should "be able to give splat args to lambda" do
+      p = -> *a { "hello #{a.join(', ')}" }
+      assert_equal "hello john, alan, brian", p.call("john", "alan", "brian")
+    end
+    
+    should "be able to give blocks to lambda" do
+      p = -> &b { "hello #{b.call}" }
+      assert_equal "hello john", p.call { "john" } 
+    end
+    
+  end
+  
 end
