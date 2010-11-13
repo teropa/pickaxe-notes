@@ -19,9 +19,16 @@ class Thingamajig
   end
 end
 
+module ValSummable
+  def sum
+    inject(0) { |r,v| r + v.val }
+  end
+end
+
 class Thingamajigs
   include Enumerable
-  
+  include ValSummable
+    
   def initialize(*vals)
     @vals = vals.map { |v| Thingamajig.new(v) }
   end
@@ -68,6 +75,7 @@ class InheritanceModulesAndMixinsTest < Test::Unit::TestCase
       assert_equal Thingamajig.new(1), t.to_enum.next
       assert_equal Thingamajig.new(3), t.find { |t| t.val == 3 }
       assert_equal [Thingamajig.new(3)], t.reject { |t| t.val != 3 }
+      assert_equal 10, t.inject(0) { |r,t| r + t.val }
     end
     
     should "support min and max when members mixin comparable" do
@@ -77,5 +85,53 @@ class InheritanceModulesAndMixinsTest < Test::Unit::TestCase
     end
     
   end
+  
+  context "custom mixin" do
+    
+    should "get sum when mixes in ValSummable" do
+      t = Thingamajigs.new(1, 2, 3, 4)
+      assert_equal 10, t.sum
+    end
+    
+  end
+  
+  context "method resolution order" do
+    
+    Mixin1 = Module.new do
+      def method_a; "mixin1"; end
+      def method_b; "mixin2"; end
+    end
+    
+    Mixin2 = Module.new do
+      def method_a; "mixin2"; end
+      def method_b; "mixin2"; end
+    end
+    
+    SuperThing = Class.new do
+      def method_a; "superthing"; end
+      def method_b; "superthing"; end
+      def method_c; "superthing"; end
+    end
+    
+    Thing = Class.new(SuperThing) do
+      include Mixin1
+      include Mixin2
+      def method_a; "thing"; end
+    end
+    
+    should "use objects own method if found" do
+      assert_equal "thing", Thing.new.method_a
+    end
+    
+    should "use last mixed in if method not found in objects class" do
+      assert_equal "mixin2", Thing.new.method_b
+    end
+    
+    should "use from superclass if method not found in objects class or mixins" do
+      assert_equal "superthing", Thing.new.method_c
+    end
+    
+  end
+  
   
 end
