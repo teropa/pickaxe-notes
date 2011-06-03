@@ -4,7 +4,7 @@ class FundamentalsTest < Test::Unit::TestCase
 
   context "The very fundamentals" do
     
-    should "make an array of words" do
+    should "make an array of words with %w" do
       assert_equal ["the", "quick", "brown", "fox"], %w(the quick brown fox)
     end
     
@@ -73,4 +73,38 @@ class FundamentalsTest < Test::Unit::TestCase
     
   end
   
-end
+  context "Visibility" do
+    
+    should "be limited by block scope for local vars" do
+      1.times { my_var = 1 }
+      deny defined?(my_var)
+    end
+    
+    should "not be limited for globals which are denoted by $" do
+      1.times { $my_var = 1 }
+      assert defined?($my_var)
+      assert_equal 1, $my_var
+    end
+    
+    should "not be limited by begin/end" do
+      begin; my_var = 1; end
+      assert defined?(my_var)
+      assert_equal 1, my_var
+    end
+    
+  end
+  
+  context "control structures" do
+    
+    should "include a for loop" do
+      res = []
+      for a in [1, 2, 3]
+        res << a ** 2
+      end
+      assert_equal [1, 4, 9], res
+    end
+  
+  end
+  
+  
+end 

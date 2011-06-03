@@ -12,6 +12,14 @@ end
 
 class ContainersBlocksAndIteratorsTest < Test::Unit::TestCase
   
+  context "making arrays" do
+    
+    should "happen nicely for a bunch of words using %w" do
+      assert_equal ["a", "b", "c"], %w[a b c]
+    end
+    
+  end
+  
   context "array manipulation by giving index and length" do
     
     setup do

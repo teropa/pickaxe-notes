@@ -1,1 +1,1 @@
-Notes to self from re-reading Pickaxe for Ruby 1.9, expressed as unit tests.
+Notes to self from learning miscellaneous Ruby stuff, expressed as unit tests.
